@@ -37,11 +37,36 @@
 </script>
 
 <svelte:head>
-	<title>Monochromate - A Minimal Greyscale Browser Extension</title>
+	<title>Monochromate - Best Greyscale Browser Extension for Distraction-Free Browsing</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="theme-color" content="#262626" />
 	<meta
 		name="description"
-		content="Transform your browsing experience with Monochromate, a minimal extension that applies a customizable greyscale filter to reduce digital distractions."
+		content="Boost your focus and reduce eye strain with Monochromate, the ultimate minimal greyscale browser extension. Customize your screen’s color settings to eliminate distractions and improve productivity."
 	/>
+	<meta
+		name="keywords"
+		content="greyscale browser extension, distraction-free browsing, reduce eye strain, minimal browser extension, productivity tool, screen time management"
+	/>
+	<meta property="og:title" content="Monochromate - Best Greyscale Browser Extension" />
+	<meta
+		property="og:description"
+		content="Boost your focus and reduce eye strain with Monochromate, the ultimate minimal greyscale browser extension."
+	/>
+	<meta property="og:image" content="https://monochromate.lirena.in/og.png" />
+	<meta property="og:url" content="https://monochromate.lirena.in" />
+	<meta property="og:type" content="website" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="@lirena00" />
+	<meta name="twitter:title" content="Monochromate - Best Greyscale Browser Extension" />
+	<meta
+		name="twitter:description"
+		content="Boost your focus and reduce eye strain with Monochromate, the ultimate minimal greyscale browser extension."
+	/>
+	<meta name="author" content="Monochromate Team" />
+	<meta name="robots" content="index, follow" />
+	<link rel="canonical" href="https://monochromate.lirena.in" />
+
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
@@ -101,7 +126,7 @@
 				<div class="flex flex-col gap-4 pt-2 sm:flex-row">
 					<a
 						href="#download"
-						class="group flex items-center justify-center gap-2 rounded-full bg-neutral-800 px-7 py-3 text-white hover:bg-neutral-800/90 hover:shadow-lg"
+						class="group flex items-center justify-center gap-2 rounded-full bg-neutral-800 px-7 py-3 text-white hover:bg-neutral-800/90"
 					>
 						{#if browser === 'Firefox'}
 							<Firefox class="h-8 w-8" />
@@ -228,7 +253,7 @@
 					href="https://chromewebstore.google.com/detail/monochromate/hafcajcllbjnoolpfngclfmmgpikdhlm"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="group flex items-center justify-center gap-3 rounded-xl bg-neutral-800 px-8 py-4 text-white transition-all hover:scale-105 hover:shadow-lg"
+					class="group flex items-center justify-center gap-3 rounded-xl bg-neutral-800 px-8 py-4 text-white transition-all hover:scale-[1.05]"
 				>
 					<Chrome class="h-8 w-8" />
 					<div class="text-left">
@@ -241,7 +266,7 @@
 					href="https://addons.mozilla.org/en-US/firefox/addon/monochromate/"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="group flex items-center justify-center gap-3 rounded-xl bg-gray-100 px-8 py-4 transition-all hover:scale-105 hover:bg-gray-200 hover:shadow-lg"
+					class="group flex items-center justify-center gap-3 rounded-xl bg-gray-100 px-8 py-4 transition-all hover:scale-[1.05] hover:bg-gray-200"
 				>
 					<Firefox class="h-8 w-8" />
 					<div class="text-left">
@@ -311,13 +336,8 @@
 		font-family:
 			'Inter',
 			-apple-system,
-			BlinkMacSystemFont,
 			'Segoe UI',
 			Roboto,
-			Oxygen,
-			Ubuntu,
-			Cantarell,
-			'Open Sans',
 			'Helvetica Neue',
 			sans-serif;
 		line-height: 1.6;
@@ -325,21 +345,5 @@
 
 	:global(p) {
 		line-height: 1.7;
-	}
-
-	@keyframes float {
-		0% {
-			transform: translateY(0px);
-		}
-		50% {
-			transform: translateY(-10px);
-		}
-		100% {
-			transform: translateY(0px);
-		}
-	}
-
-	.animate-float {
-		animation: float 3s ease-in-out infinite;
 	}
 </style>
