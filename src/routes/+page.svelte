@@ -85,7 +85,7 @@
 <div class="flex min-h-screen flex-col bg-white text-neutral-800 antialiased">
 	<header class="sticky top-0 z-50 border-b border-neutral-200 bg-white/90 backdrop-blur-sm">
 		<div class="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
-			<a href="#" class="group flex items-center gap-1">
+			<a href="/" class="group flex items-center gap-1">
 				<div class="flex h-7 w-7 items-center justify-center sm:h-8 sm:w-8">
 					<img src="/logo.png" alt="Monochromate in action" />
 				</div>
@@ -294,7 +294,7 @@
 				<h2 class="text-2xl font-bold sm:text-3xl">Support Monochromate</h2>
 				<p class="max-w-md text-neutral-500">
 					If Monochromate helps you stay focused and productive, consider supporting us. Your
-					donation helps keep the extension free and continuously improved.
+					donation helps keep us motivated to improve the extension and add new features.
 				</p>
 				<div class="flex flex-wrap justify-center gap-4">
 					<a
@@ -366,7 +366,7 @@
 				<p class="mt-2 text-center md:mt-0">
 					Made with ♥ by <a
 						href="https://github.com/lirena00"
-						class="transition-colors hover:text-neutral-900">Lirena</a
+						class="underline transition-colors hover:text-neutral-900">lirena00</a
 					>
 				</p>
 			</div>
