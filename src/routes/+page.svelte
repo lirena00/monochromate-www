@@ -5,9 +5,6 @@
 		Shield,
 		Heart,
 		Github,
-		ArrowRight,
-		Star,
-		Monitor,
 		ExternalLink,
 		Settings,
 		Eye
@@ -76,17 +73,18 @@
 </svelte:head>
 
 <div class="flex min-h-screen flex-col bg-white text-gray-800 antialiased">
-	<!-- Header with subtle shadow -->
 	<header class="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur-sm">
-		<div class="container mx-auto flex items-center justify-between px-6 py-4">
+		<div class="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
 			<a href="#" class="group flex items-center gap-1">
-				<div class="flex h-8 w-8 items-center justify-center">
-					<img src="/logo.png" alt="Monochromate in action" class="" />
+				<div class="flex h-7 w-7 items-center justify-center sm:h-8 sm:w-8">
+					<img src="/logo.png" alt="Monochromate in action" />
 				</div>
-				<h1 class="text-2xl font-bold transition-colors group-hover:text-gray-600">Monochromate</h1>
+				<h1 class="text-xl font-bold transition-colors group-hover:text-gray-600 sm:text-2xl">
+					Monochromate
+				</h1>
 			</a>
 
-			<div class="flex items-center gap-4">
+			<div class="flex items-center gap-2 sm:gap-4">
 				<a
 					href="https://github.com/lirena00/monochromate"
 					target="_blank"
@@ -101,7 +99,7 @@
 				</a>
 				<a
 					href="#download"
-					class="rounded-full bg-neutral-800 px-5 py-2 text-sm font-medium text-white shadow-md transition-all hover:scale-105 hover:bg-neutral-800/90"
+					class="hidden rounded-full bg-neutral-800 px-5 py-2 text-sm font-medium text-white shadow-md transition-all hover:scale-105 hover:bg-neutral-800/90 sm:inline"
 				>
 					Download
 				</a>
@@ -109,21 +107,20 @@
 		</div>
 	</header>
 
-	<!-- Hero Section with more visual elements -->
-	<section class="container mx-auto px-6 py-20 md:py-28">
-		<div class="flex flex-col items-center gap-12 md:flex-row">
-			<div class="space-y-7 md:w-1/2">
-				<h2 class="text-4xl leading-tight font-bold md:text-5xl lg:text-6xl">
+	<section class="container mx-auto px-4 py-12 sm:px-6 sm:py-20 md:py-28">
+		<div class="flex flex-col-reverse items-center gap-8 md:flex-row md:gap-12">
+			<div class="w-full space-y-5 text-center sm:space-y-7 md:w-1/2 md:text-left">
+				<h2 class="text-3xl leading-tight font-bold sm:text-4xl md:text-5xl lg:text-6xl">
 					Focus on what <span class="relative font-semibold text-neutral-500 italic">
 						matters.
 						<span class="absolute bottom-0 left-0 h-1 w-full bg-neutral-500 opacity-50"></span>
 					</span>
 				</h2>
-				<p class="max-w-md text-lg leading-relaxed text-gray-500">
+				<p class="mx-auto max-w-md text-base leading-relaxed text-gray-500 sm:text-lg md:mx-0">
 					Turn down the colors, turn up your focus. Transform your browsing experience with a
 					customizable greyscale filter that helps you reduce screen time and stay distraction-free.
 				</p>
-				<div class="flex flex-col gap-4 pt-2 sm:flex-row">
+				<div class="flex flex-col justify-center gap-3 pt-2 sm:flex-row sm:gap-4 md:justify-start">
 					<a
 						href="#download"
 						class="group flex items-center justify-center gap-2 rounded-full bg-neutral-800 px-7 py-3 text-white hover:bg-neutral-800/90"
@@ -158,7 +155,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="relative md:w-1/2">
+			<div class="relative w-full md:w-1/2">
 				<div
 					class="rounded-2xl border border-gray-200 bg-gray-50 p-2 shadow-lg transition-all hover:shadow-xl"
 				>
@@ -168,10 +165,9 @@
 		</div>
 	</section>
 
-	<!-- Features Section with improved cards -->
-	<section id="features" class="border-y border-gray-200 bg-gray-50 py-20">
-		<div class="container mx-auto px-6">
-			<div class="mb-14 flex flex-col items-center gap-3">
+	<section id="features" class="border-y border-gray-200 bg-gray-50 py-12 sm:py-20">
+		<div class="container mx-auto px-4 sm:px-6">
+			<div class="mb-10 flex flex-col items-center gap-3 sm:mb-14">
 				<div class="mb-2 h-1 w-16 rounded-full bg-neutral-800"></div>
 				<h2 class="text-center text-3xl font-bold">Features</h2>
 				<p class="max-w-xl text-center leading-relaxed text-gray-500">
@@ -179,8 +175,7 @@
 				</p>
 			</div>
 
-			<div class="grid gap-8 md:grid-cols-3">
-				<!-- Feature 1 -->
+			<div class="grid gap-4 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
 				<div
 					class="group rounded-xl border border-gray-300 bg-white p-7 shadow-sm transition-all hover:border-gray-400 hover:shadow-md"
 				>
@@ -198,7 +193,6 @@
 					</p>
 				</div>
 
-				<!-- Feature 2 -->
 				<div
 					class="group rounded-xl border border-gray-300 bg-white p-7 shadow-sm transition-all hover:border-gray-400 hover:shadow-md"
 				>
@@ -216,7 +210,6 @@
 					</p>
 				</div>
 
-				<!-- Feature 3 -->
 				<div
 					class="group rounded-xl border border-gray-300 bg-white p-7 shadow-sm transition-all hover:border-gray-400 hover:shadow-md"
 				>
@@ -237,10 +230,9 @@
 		</div>
 	</section>
 
-	<!-- Download Section with improved CTA -->
-	<section id="download" class="border-y border-gray-200 bg-white py-20">
-		<div class="container mx-auto px-6 text-center">
-			<div class="mb-10 flex flex-col items-center gap-3">
+	<section id="download" class="border-y border-gray-200 bg-white py-12 sm:py-20">
+		<div class="container mx-auto px-4 text-center sm:px-6">
+			<div class="mb-8 flex flex-col items-center gap-3 sm:mb-10">
 				<div class="mb-2 h-1 w-16 rounded-full bg-neutral-800"></div>
 				<h2 class="text-center text-3xl font-bold">Get Monochromate Today</h2>
 				<p class="mx-auto max-w-xl text-lg leading-relaxed text-gray-500">
@@ -248,7 +240,9 @@
 				</p>
 			</div>
 
-			<div class="mx-auto mb-12 flex max-w-2xl flex-wrap justify-center gap-4">
+			<div
+				class="mx-auto mb-8 flex max-w-2xl flex-col flex-wrap justify-center gap-4 sm:mb-12 sm:flex-row"
+			>
 				<a
 					href="https://chromewebstore.google.com/detail/monochromate/hafcajcllbjnoolpfngclfmmgpikdhlm"
 					target="_blank"
@@ -279,10 +273,9 @@
 		</div>
 	</section>
 
-	<!-- Footer with improved layout -->
-	<footer class="border-t border-gray-200 bg-gray-50 py-12">
-		<div class="container mx-auto px-6">
-			<div class="flex flex-col items-center justify-between gap-6 md:flex-row">
+	<footer class="border-t border-gray-200 bg-gray-50 py-8 sm:py-12">
+		<div class="container mx-auto px-4 sm:px-6">
+			<div class="flex flex-col items-center gap-6 md:flex-row md:justify-between">
 				<div class="flex items-center gap-1">
 					<div class="flex h-8 w-8 items-center justify-center">
 						<img src="/logo.png" alt="Monochromate in action" class="" />
@@ -317,7 +310,7 @@
 			</div>
 
 			<div
-				class="mt-8 flex flex-col items-center justify-between border-t border-gray-200 pt-6 text-sm text-gray-500 md:flex-row"
+				class="mt-6 flex flex-col items-center justify-between gap-2 border-t border-gray-200 pt-4 text-sm text-gray-500 sm:mt-8 sm:pt-6 md:flex-row md:gap-0"
 			>
 				<p>© {new Date().getFullYear()} Monochromate. All rights reserved.</p>
 				<p class="mt-2 md:mt-0">
@@ -345,5 +338,16 @@
 
 	:global(p) {
 		line-height: 1.7;
+	}
+
+	/* Add responsive utilities */
+	@media (max-width: 640px) {
+		:global(h1, h2, h3) {
+			word-break: break-word;
+		}
+
+		:global(.container) {
+			max-width: 100%;
+		}
 	}
 </style>
