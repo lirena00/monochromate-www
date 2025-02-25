@@ -225,7 +225,7 @@
 
 			<div class="mx-auto mb-12 flex max-w-2xl flex-wrap justify-center gap-4">
 				<a
-					href="https://chrome.google.com/webstore/detail/monochromate"
+					href="https://chromewebstore.google.com/detail/monochromate/hafcajcllbjnoolpfngclfmmgpikdhlm"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="group flex items-center justify-center gap-3 rounded-xl bg-neutral-800 px-8 py-4 text-white transition-all hover:scale-105 hover:shadow-lg"
@@ -238,7 +238,7 @@
 					<ExternalLink size={16} class="opacity-0 transition-opacity group-hover:opacity-100" />
 				</a>
 				<a
-					href="https://addons.mozilla.org/en-US/firefox/addon/monochromate"
+					href="https://addons.mozilla.org/en-US/firefox/addon/monochromate/"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="group flex items-center justify-center gap-3 rounded-xl bg-gray-100 px-8 py-4 transition-all hover:scale-105 hover:bg-gray-200 hover:shadow-lg"
