@@ -4,7 +4,6 @@
 		Sliders,
 		Shield,
 		Heart,
-		Github,
 		ExternalLink,
 		Settings,
 		Eye,
@@ -12,34 +11,14 @@
 	} from 'lucide-svelte';
 	import Firefox from '../components/icons/firefox.svelte';
 	import Chrome from '../components/icons/chrome.svelte';
+	import Header from '../components/Header.svelte';
+	import Footer from '../components/Footer.svelte';
 
-	let stars = 0;
-
-	async function fetchStars() {
-		try {
-			const response = await fetch('https://api.github.com/repos/lirena00/monochromate');
-			const data = await response.json();
-			stars = data.stargazers_count;
-		} catch (error) {
-			console.error('Error fetching stars:', error);
-		}
-	}
-
-	fetchStars();
 	let browser = 'Chrome';
 	if (typeof window !== 'undefined') {
 		if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 			browser = 'Firefox';
 		}
-	}
-
-	// Add floating button show/hide logic
-	let showFloatingButton = false;
-
-	if (typeof window !== 'undefined') {
-		window.addEventListener('scroll', () => {
-			showFloatingButton = window.scrollY > 400;
-		});
 	}
 </script>
 
@@ -83,41 +62,7 @@
 </svelte:head>
 
 <div class="flex min-h-screen flex-col bg-white text-neutral-800 antialiased">
-	<header class="sticky top-0 z-50 border-b border-neutral-200 bg-white/90 backdrop-blur-sm">
-		<div class="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
-			<a href="/" class="group flex items-center gap-1">
-				<div class="flex h-7 w-7 items-center justify-center sm:h-8 sm:w-8">
-					<img src="/logo.png" alt="Monochromate in action" />
-				</div>
-				<h1 class="text-xl font-bold transition-colors group-hover:text-gray-600 sm:text-2xl">
-					Monochromate
-				</h1>
-			</a>
-
-			<div class="flex items-center gap-2 sm:gap-4">
-				<a
-					href="https://github.com/lirena00/monochromate"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="flex items-center gap-2 text-neutral-600 transition-colors hover:text-neutral-900"
-				>
-					<Github size={18} />
-					<span class="hidden sm:inline">GitHub</span>
-					<span
-						class="ml-1 inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-700 transition-all hover:bg-neutral-200"
-					>
-						{stars} ⭐
-					</span>
-				</a>
-				<a
-					href="#download"
-					class="hidden rounded-full bg-neutral-900 px-5 py-2 text-sm font-medium text-neutral-50 shadow-sm transition-all hover:bg-neutral-800 hover:shadow-md sm:inline"
-				>
-					Download
-				</a>
-			</div>
-		</div>
-	</header>
+	<Header />
 
 	<section class="container mx-auto px-4 py-12 sm:px-6 sm:py-20 md:py-28">
 		<div class="flex flex-col-reverse items-center gap-8 md:flex-row md:gap-12">
@@ -323,55 +268,7 @@
 		</div>
 	</section>
 
-	<footer class="border-t border-neutral-200 bg-white py-8 sm:py-12">
-		<div class="container mx-auto px-4 sm:px-6">
-			<div class="flex flex-col items-center gap-6 md:flex-row md:justify-between">
-				<div class="flex items-center gap-1">
-					<div class="flex h-8 w-8 items-center justify-center">
-						<img src="/logo.png" alt="Monochromate in action" class="" />
-					</div>
-					<h1 class="text-2xl font-bold transition-colors group-hover:text-gray-600">
-						Monochromate
-					</h1>
-				</div>
-
-				<div class="flex flex-col items-center gap-6 sm:flex-row">
-					<div class="flex flex-wrap items-center gap-4">
-						<a
-							href="https://buymeacoffee.com/lirena00"
-							target="_blank"
-							rel="noopener noreferrer"
-							class="group flex items-center gap-2 rounded-full bg-neutral-900 px-4 py-2 text-neutral-50 transition-all hover:bg-neutral-800"
-						>
-							<Coffee size={16} class="transition-transform group-hover:scale-110" />
-							<span class="text-sm">Support Us</span>
-						</a>
-						<a
-							href="https://github.com/lirena00/monochromate"
-							target="_blank"
-							rel="noopener noreferrer"
-							class="group flex items-center gap-2 rounded-full px-4 py-2 text-gray-600 transition-all hover:bg-white hover:shadow-sm"
-						>
-							<Github size={16} class="transition-transform group-hover:scale-110" />
-							<span class="text-sm">GitHub</span>
-						</a>
-					</div>
-				</div>
-			</div>
-
-			<div
-				class="mt-6 flex flex-col items-center justify-between gap-2 border-t border-neutral-200 pt-4 text-sm text-neutral-500 sm:mt-8 sm:pt-6 md:flex-row md:gap-0"
-			>
-				<p class="text-center">© {new Date().getFullYear()} Monochromate. All rights reserved.</p>
-				<p class="mt-2 text-center md:mt-0">
-					Made with ♥ by <a
-						href="https://github.com/lirena00"
-						class="underline transition-colors hover:text-neutral-900">lirena00</a
-					>
-				</p>
-			</div>
-		</div>
-	</footer>
+	<Footer />
 </div>
 
 <style>
