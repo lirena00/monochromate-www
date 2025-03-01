@@ -11,6 +11,9 @@ importers:
       lucide-svelte:
         specifier: ^0.476.0
         version: 0.476.0(svelte@5.20.4)
+      marked:
+        specifier: ^15.0.7
+        version: 15.0.7
     devDependencies:
       '@eslint/compat':
         specifier: ^1.2.5
@@ -1269,6 +1272,11 @@ packages:
 
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
+
+  marked@15.0.7:
+    resolution: {integrity: sha512-dgLIeKGLx5FwziAnsk4ONoGwHwGPJzselimvlVskE9XLN4Orv9u2VA3GWw/lYUqjfA0rUT/6fqKwfZJapP9BEg==}
+    engines: {node: '>= 18'}
+    hasBin: true
 
   merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
@@ -2783,6 +2791,8 @@ snapshots:
   magic-string@0.30.17:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  marked@15.0.7: {}
 
   merge2@1.4.1: {}
 
