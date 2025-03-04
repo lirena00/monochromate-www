@@ -7,7 +7,8 @@
 		ExternalLink,
 		Settings,
 		Eye,
-		Coffee
+		Coffee,
+		Quote
 	} from 'lucide-svelte';
 	import Firefox from '../components/icons/firefox.svelte';
 	import Chrome from '../components/icons/chrome.svelte';
@@ -230,7 +231,78 @@
 		</div>
 	</section>
 
-	<section class="border-t border-neutral-200 bg-neutral-50 py-12 sm:py-20">
+	<section class="border-y border-neutral-200 bg-neutral-50 py-12 sm:py-20">
+		<div class="container mx-auto px-4 sm:px-6">
+			<div class="mb-10 flex flex-col items-center gap-3 sm:mb-14">
+				<div class="mb-2 h-1 w-16 rounded-full bg-neutral-800"></div>
+				<h2 class="text-center text-3xl font-bold">What Our Users Say</h2>
+			</div>
+
+			<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				<div class="flex flex-col rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+					<div class="mb-4 text-neutral-300">
+						<Quote size={24} />
+					</div>
+					<p class="mb-4 flex-1 text-lg italic">Every movie feels like oppenheimer second half.</p>
+					<div class="flex items-center gap-3">
+						<div class="h-10 w-10 overflow-hidden rounded-full bg-neutral-100">
+							<img
+								src="/avatars/user1.webp"
+								alt="User"
+								class="h-full w-full object-cover grayscale"
+							/>
+						</div>
+						<div>
+							<p class="font-medium">Christopher Narayan</p>
+							<p class="text-sm text-neutral-500">Nolan's Fan</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="flex flex-col rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+					<div class="mb-4 text-neutral-300">
+						<Quote size={24} />
+					</div>
+					<p class="mb-4 flex-1 text-lg italic">Now I know what my dog sees and it's "dogshit".</p>
+					<div class="flex items-center gap-3">
+						<div class="h-10 w-10 overflow-hidden rounded-full bg-neutral-100">
+							<img
+								src="/avatars/user2.webp"
+								alt="User"
+								class="h-full w-full object-cover grayscale"
+							/>
+						</div>
+						<div>
+							<p class="font-medium">Melon Musk</p>
+							<p class="text-sm text-neutral-500">Dog Owner (Now owns cat)</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="flex flex-col rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+					<div class="mb-4 text-neutral-300">
+						<Quote size={24} />
+					</div>
+					<p class="mb-4 flex-1 text-lg italic">Every site is giga chad meme now.</p>
+					<div class="flex items-center gap-3">
+						<div class="h-10 w-10 overflow-hidden rounded-full bg-neutral-100">
+							<img
+								src="/avatars/user3.webp"
+								alt="User"
+								class="h-full w-full object-cover grayscale"
+							/>
+						</div>
+						<div>
+							<p class="font-medium">Mr. Nyansuki</p>
+							<p class="text-sm text-neutral-500">Memer (Unemployed)</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="border-t border-neutral-200 bg-white py-12 sm:py-20">
 		<div class="container mx-auto px-4 sm:px-6">
 			<div class="flex flex-col items-center gap-6 text-center">
 				<div class="rounded-full bg-red-50 p-3">
