@@ -1,5 +1,6 @@
 <script>
 	import { Github, Heart, Coffee } from 'lucide-svelte';
+	import Discord from './icons/discord.svelte';
 </script>
 
 <footer class="border-t border-neutral-200 bg-white py-8 sm:py-12">
@@ -11,11 +12,13 @@
 				</div>
 				<h1 class="text-2xl font-bold transition-colors group-hover:text-gray-600">Monochromate</h1>
 			</div>
-
 			<div class="flex flex-col items-center gap-6 sm:flex-row">
 				<nav class="flex flex-wrap justify-center gap-4 text-sm">
 					<a href="/privacy" class="text-neutral-600 transition-colors hover:text-neutral-900"
 						>Privacy</a
+					>
+					<a href="/release-notes" class="text-neutral-600 transition-colors hover:text-neutral-900"
+						>Release Notes</a
 					>
 				</nav>
 				<div class="flex flex-wrap items-center gap-4">
@@ -27,6 +30,15 @@
 					>
 						<Coffee size={16} class="transition-transform group-hover:scale-110" />
 						<span class="text-sm">Support Us</span>
+					</a>
+					<a
+						href="https://discord.gg/pdxMMNGWCU"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="group flex items-center gap-2 rounded-full px-4 py-2 text-neutral-600 transition-all hover:bg-neutral-50 hover:shadow-sm"
+					>
+						<Discord size={16} class="transition-transform group-hover:scale-110" />
+						<span class="text-sm">Discord</span>
 					</a>
 					<a
 						href="https://github.com/lirena00/monochromate"
