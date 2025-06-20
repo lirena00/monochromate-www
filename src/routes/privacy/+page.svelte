@@ -43,7 +43,9 @@
 					<h1 class="mb-4 text-center text-3xl font-bold md:text-4xl">Privacy Policy</h1>
 					<p class="text-center text-neutral-500">Last updated: February 28, 2025</p>
 
-					<div class="mt-8 flex items-center justify-center gap-2 rounded-full bg-white p-3">
+					<div
+						class="mt-8 flex items-center justify-center gap-2 rounded-full border border-dashed border-neutral-400 bg-white p-3"
+					>
 						<Shield size={20} class="text-neutral-700" />
 						<p class="font-medium">Your data stays on your device. We collect nothing.</p>
 					</div>
