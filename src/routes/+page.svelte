@@ -1,6 +1,5 @@
 <script>
 	import {
-		Power,
 		Sliders,
 		Shield,
 		Heart,
@@ -8,6 +7,7 @@
 		Settings,
 		Eye,
 		Coffee,
+		Clock,
 		Quote
 	} from 'lucide-svelte';
 	import Firefox from '../components/icons/firefox.svelte';
@@ -24,7 +24,7 @@
 </script>
 
 <svelte:head>
-	<title>Monochromate - Best Greyscale Browser Extension for Distraction-Free Browsing</title>
+	<title>Monochromate | Best Greyscale Browser Extension for Distraction-Free Browsing</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="theme-color" content="#171717" />
 	<meta
@@ -141,13 +141,12 @@
 						<div
 							class="inline-flex rounded-lg bg-neutral-100 p-3 transition-colors group-hover:bg-neutral-900/5"
 						>
-							<Power size={24} class="text-neutral-700" />
+							<Clock size={24} class="text-neutral-700" />
 						</div>
 					</div>
-					<h3 class="mb-3 text-xl font-semibold">Greyscale Filter</h3>
+					<h3 class="mb-3 text-xl font-semibold">Smart Scheduler</h3>
 					<p class="leading-relaxed text-neutral-500">
-						Toggle the monochrome filter on and off with a single click. Works instantly on any
-						website to reduce visual stimulation.
+						Set automatic schedules to enable greyscale during work hours or study time.
 					</p>
 				</div>
 
@@ -342,45 +341,3 @@
 
 	<Footer />
 </div>
-
-<style>
-	:global(body) {
-		font-family:
-			'Inter',
-			-apple-system,
-			'Segoe UI',
-			Roboto,
-			'Helvetica Neue',
-			sans-serif;
-		line-height: 1.6;
-	}
-
-	:global(p) {
-		line-height: 1.7;
-	}
-
-	/* Add responsive utilities */
-	@media (max-width: 640px) {
-		:global(h1, h2, h3) {
-			word-break: break-word;
-		}
-
-		:global(.container) {
-			max-width: 100%;
-		}
-	}
-
-	@keyframes pulse {
-		0%,
-		100% {
-			opacity: 1;
-		}
-		50% {
-			opacity: 0.5;
-		}
-	}
-
-	:global(.animate-pulse) {
-		animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-	}
-</style>

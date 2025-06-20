@@ -5,8 +5,31 @@
 </script>
 
 <svelte:head>
-	<title>Privacy Policy - Monochromate</title>
-	<meta name="description" content="Privacy Policy for the Monochromate browser extension" />
+	<title>Privacy Policy | Monochromate | Your Data Stays Safe</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="theme-color" content="#171717" />
+	<meta
+		name="description"
+		content="Learn about Monochromate's privacy-first approach. We don't collect, store, or track any personal data. All settings stay on your device for complete privacy."
+	/>
+	<meta property="og:title" content="Privacy Policy | Monochromate" />
+	<meta
+		property="og:description"
+		content="Learn about Monochromate's privacy-first approach. We don't collect, store, or track any personal data. All settings stay on your device for complete privacy."
+	/>
+	<meta property="og:image" content="https://monochromate.lirena.in/og.png" />
+	<meta property="og:url" content="https://monochromate.lirena.in/privacy" />
+	<meta property="og:type" content="website" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="@lirena00" />
+	<meta name="twitter:title" content="Privacy Policy - Monochromate" />
+	<meta
+		name="twitter:description"
+		content="Learn about Monochromate's privacy-first approach. We don't collect, store, or track any personal data. All settings stay on your device for complete privacy."
+	/>
+	<meta name="author" content="Monochromate Team" />
+	<meta name="robots" content="index, follow" />
+	<link rel="canonical" href="https://monochromate.lirena.in/privacy" />
 </svelte:head>
 
 <div class="flex min-h-screen flex-col bg-white text-neutral-800 antialiased">
@@ -92,7 +115,6 @@
 							Monochromate does <strong>not</strong> collect or store personal data. However, the extension
 							stores certain preferences locally on your device to improve functionality.
 						</p>
-
 						<div class="rounded-lg bg-neutral-50 p-4">
 							<h3 class="mb-3 font-medium">Data Stored Locally:</h3>
 							<ul class="space-y-3 text-neutral-500">
@@ -103,6 +125,10 @@
 								<li class="flex items-start gap-2">
 									<CheckCircle size={18} class="mt-0.5 flex-shrink-0 text-green-600" />
 									<span>Excluded websites list (to disable grayscale on selected sites)</span>
+								</li>
+								<li class="flex items-start gap-2">
+									<CheckCircle size={18} class="mt-0.5 flex-shrink-0 text-green-600" />
+									<span>Scheduler settings (start/end times for automatic activation)</span>
 								</li>
 							</ul>
 
@@ -263,20 +289,3 @@
 
 	<Footer />
 </div>
-
-<style>
-	:global(body) {
-		font-family:
-			'Inter',
-			-apple-system,
-			'Segoe UI',
-			Roboto,
-			'Helvetica Neue',
-			sans-serif;
-		line-height: 1.6;
-	}
-
-	:global(p) {
-		line-height: 1.7;
-	}
-</style>
