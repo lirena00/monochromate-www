@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Calendar, Tag, Bell, ExternalLink } from 'lucide-svelte';
+	import { Calendar, Tag, Bell, ExternalLink, CheckCircle } from 'lucide-svelte';
 	import Header from '../../components/Header.svelte';
 	import Footer from '../../components/Footer.svelte';
 	import Discord from '../../components/icons/discord.svelte';
@@ -45,6 +45,13 @@
 					<p class="text-center text-neutral-500">
 						Track our progress and see what's new in Monochromate
 					</p>
+
+					<div
+						class="mt-8 flex items-center justify-center gap-2 rounded-full border border-dashed border-neutral-400 bg-white p-3"
+					>
+						<CheckCircle size={20} class="text-neutral-700" />
+						<p class="font-medium">Your extension has been updated with the latest features.</p>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -64,13 +71,12 @@
 							Stay updated with the latest features, improvements, and bug fixes in Monochromate.
 							Each release brings us closer to the perfect distraction-free browsing experience.
 						</p>
-
 						<div class="mt-4 grid gap-3 sm:grid-cols-3">
 							<div
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">3</span>
+									<span class="text-lg font-bold text-neutral-700">4</span>
 								</div>
 								<p class="font-medium">Versions Released</p>
 								<p class="text-sm text-neutral-500">Since launch in 2024</p>
@@ -79,7 +85,7 @@
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">7+</span>
+									<span class="text-lg font-bold text-neutral-700">10+</span>
 								</div>
 								<p class="font-medium">Bug Fixes</p>
 								<p class="text-sm text-neutral-500">Continuous improvements</p>
@@ -88,7 +94,7 @@
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">3+</span>
+									<span class="text-lg font-bold text-neutral-700">5+</span>
 								</div>
 								<p class="font-medium">New Features</p>
 								<p class="text-sm text-neutral-500">Enhanced functionality</p>
@@ -132,11 +138,10 @@
 						</a>
 					</div>
 				</div>
-
 				<div class="space-y-8 leading-relaxed">
-					<!-- Version 1.3.1 -->
+					<!-- Version 1.3.2 -->
 					<article
-						id="v1.3.1"
+						id="v1.3.2"
 						class="rounded-xl border-2 border-neutral-900 bg-white p-8 shadow-sm"
 					>
 						<header class="mb-6">
@@ -145,9 +150,69 @@
 									class="flex items-center gap-2 rounded-full border-2 border-neutral-900 bg-neutral-900 px-3 py-1"
 								>
 									<Tag size={16} class="text-white" />
-									<span class="text-sm font-medium text-white">v1.3.1</span>
+									<span class="text-sm font-medium text-white">v1.3.2</span>
 								</div>
 								<span class="text-sm text-neutral-500">Latest</span>
+							</div>
+							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+								<h2 class="text-2xl font-bold">Version 1.3.2</h2>
+								<a
+									href="https://github.com/lirena00/monochromate/releases/tag/v1.3.2"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
+								>
+									<span>View on GitHub</span>
+									<ExternalLink size={14} />
+								</a>
+							</div>
+							<div class="mt-2 flex items-center gap-2 text-neutral-500">
+								<Calendar size={16} />
+								<span class="text-sm">Just released</span>
+							</div>
+						</header>
+
+						<div class="space-y-6">
+							<div>
+								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
+								<ul class="space-y-2 text-neutral-600">
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span
+											>Extension will now open Monochromate website when installed or updated</span
+										>
+									</li>
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span>Improved schedule handling to save start and end times together</span>
+									</li>
+								</ul>
+							</div>
+
+							<div>
+								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
+								<ul class="space-y-2 text-neutral-600">
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span>Fixed user's data wiping off because of schedule conflicts</span>
+									</li>
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span>Fixed schedule data persistence issues during application lifecycle</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</article>
+
+					<!-- Version 1.3.1 -->
+					<article id="v1.3.1" class="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
+						<header class="mb-6">
+							<div class="mb-4 flex items-center gap-3">
+								<div class="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1">
+									<Tag size={16} class="text-neutral-600" />
+									<span class="text-sm font-medium text-neutral-600">v1.3.1</span>
+								</div>
 							</div>
 							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 								<h2 class="text-2xl font-bold">Version 1.3.1</h2>
@@ -305,6 +370,31 @@
 			</div>
 		</section>
 	</main>
-
 	<Footer />
 </div>
+
+<style>
+	:global(body) {
+		font-family:
+			'Inter',
+			-apple-system,
+			'Segoe UI',
+			Roboto,
+			'Helvetica Neue',
+			sans-serif;
+		line-height: 1.6;
+	}
+
+	:global(p) {
+		line-height: 1.7;
+	}
+
+	:global(html) {
+		scroll-behavior: smooth;
+	}
+
+	/* Custom smooth scroll with offset for anchored sections */
+	:global([id]) {
+		scroll-margin-top: 2rem;
+	}
+</style>
