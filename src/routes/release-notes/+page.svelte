@@ -76,7 +76,7 @@
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">4</span>
+									<span class="text-lg font-bold text-neutral-700">6</span>
 								</div>
 								<p class="font-medium">Versions Released</p>
 								<p class="text-sm text-neutral-500">Since launch in 2024</p>
@@ -94,7 +94,7 @@
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">7+</span>
+									<span class="text-lg font-bold text-neutral-700">8+</span>
 								</div>
 								<p class="font-medium">New Features</p>
 								<p class="text-sm text-neutral-500">Enhanced functionality</p>
@@ -139,9 +139,9 @@
 					</div>
 				</div>
 				<div class="space-y-8 leading-relaxed">
-					<!-- Version 1.4.0 -->
+					<!-- Version 1.4.1 -->
 					<article
-						id="v1.4.0"
+						id="v1.4.1"
 						class="rounded-xl border-2 border-neutral-900 bg-white p-8 shadow-sm"
 					>
 						<header class="mb-6">
@@ -150,9 +150,80 @@
 									class="flex items-center gap-2 rounded-full border-2 border-neutral-900 bg-neutral-900 px-3 py-1"
 								>
 									<Tag size={16} class="text-white" />
-									<span class="text-sm font-medium text-white">v1.4.0</span>
+									<span class="text-sm font-medium text-white">v1.4.1</span>
 								</div>
 								<span class="text-sm text-neutral-500">Latest</span>
+							</div>
+							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+								<h2 class="text-2xl font-bold">Version 1.4.1</h2>
+								<a
+									href="https://github.com/lirena00/monochromate/releases/tag/v1.4.1"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
+								>
+									<span>View on GitHub</span>
+									<ExternalLink size={14} />
+								</a>
+							</div>
+							<div class="mt-2 flex items-center gap-2 text-neutral-500">
+								<Calendar size={16} />
+								<span class="text-sm">Just released</span>
+							</div>
+						</header>
+
+						<div class="space-y-6">
+							<div>
+								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
+								<ul class="space-y-2 text-neutral-600">
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span
+											>Redid UI of blacklist management page to make it consistent with overall ui
+											of extension
+										</span>
+									</li>
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span
+											>There is a warning shown when extension is enabled on an extension/addon site
+										</span>
+									</li>
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+
+										<span>Migrated storage to wxt/storage </span>
+									</li>
+								</ul>
+							</div>
+
+							<div>
+								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
+								<ul class="space-y-2 text-neutral-600">
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span
+											>Fixed monochromate not working on full screen (by <a
+												href="https://github.com/AlenVelocity"
+												target="_blank"
+												rel="noopener noreferrer"
+												class="text-neutral-900 underline hover:text-neutral-600">@AlenVelocity</a
+											>)</span
+										>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</article>
+
+					<!-- Version 1.4.0 -->
+					<article id="v1.4.0" class="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
+						<header class="mb-6">
+							<div class="mb-4 flex items-center gap-3">
+								<div class="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1">
+									<Tag size={16} class="text-neutral-600" />
+									<span class="text-sm font-medium text-neutral-600">v1.4.0</span>
+								</div>
 							</div>
 							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 								<h2 class="text-2xl font-bold">Version 1.4.0</h2>
@@ -168,7 +239,7 @@
 							</div>
 							<div class="mt-2 flex items-center gap-2 text-neutral-500">
 								<Calendar size={16} />
-								<span class="text-sm">Just released</span>
+								<span class="text-sm">Previously released</span>
 							</div>
 						</header>
 
