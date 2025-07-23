@@ -11,7 +11,7 @@
 	<meta name="theme-color" content="#171717" />
 	<meta
 		name="description"
-		content="Stay updated with the latest Monochromate features, improvements, and bug fixes. Track our progress and discover what's new in each version of our greyscale browser extension."
+		content="Monochromate Release Notes - Stay updated with the latest features, improvements, and bug fixes for our free greyscale browser extension. Track development progress and discover new productivity enhancements in each version."
 	/>
 	<meta property="og:title" content="Release Notes | Monochromate - Latest Updates & Features" />
 	<meta

@@ -10,7 +10,7 @@
 	<meta name="theme-color" content="#171717" />
 	<meta
 		name="description"
-		content="Learn about Monochromate's privacy-first approach. We don't collect, store, or track any personal data. All settings stay on your device for complete privacy."
+		content="Monochromate Privacy Policy - Learn about our privacy-first approach. We don't collect, store, or track any personal data. All settings stay on your device for complete privacy. Free greyscale browser extension with zero data collection."
 	/>
 	<meta property="og:title" content="Privacy Policy | Monochromate" />
 	<meta
