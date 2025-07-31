@@ -138,10 +138,11 @@
 						</a>
 					</div>
 				</div>
+
 				<div class="space-y-8 leading-relaxed">
-					<!-- Version 1.4.2 -->
+					<!-- Version 1.4.3 -->
 					<article
-						id="v1.4.2"
+						id="v1.4.3"
 						class="rounded-xl border-2 border-neutral-900 bg-white p-8 shadow-sm"
 					>
 						<header class="mb-6">
@@ -150,9 +151,70 @@
 									class="flex items-center gap-2 rounded-full border-2 border-neutral-900 bg-neutral-900 px-3 py-1"
 								>
 									<Tag size={16} class="text-white" />
-									<span class="text-sm font-medium text-white">v1.4.2</span>
+									<span class="text-sm font-medium text-white">v1.4.3</span>
 								</div>
 								<span class="text-sm text-neutral-500">Latest</span>
+							</div>
+							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+								<h2 class="text-2xl font-bold">Version 1.4.3</h2>
+								<a
+									href="https://github.com/lirena00/monochromate/releases/tag/v1.4.3"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
+								>
+									<span>View on GitHub</span>
+									<ExternalLink size={14} />
+								</a>
+							</div>
+							<div class="mt-2 flex items-center gap-2 text-neutral-500">
+								<Calendar size={16} />
+								<span class="text-sm">Just released</span>
+							</div>
+						</header>
+
+						<div class="space-y-6">
+							<div>
+								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
+								<ul class="space-y-2 text-neutral-600">
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span>Added better text cues for import/export status of settings</span>
+									</li>
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span>Added rate us section in footer</span>
+									</li>
+								</ul>
+							</div>
+
+							<div>
+								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
+								<ul class="space-y-2 text-neutral-600">
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span>Fixed not able to import settings in Firefox based browsers</span>
+									</li>
+									<li class="flex items-start gap-3">
+										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
+										<span
+											>Fixed monochromate not respecting excluded sites while being in fullscreen
+											mode</span
+										>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</article>
+
+					<!-- Version 1.4.2 -->
+					<article id="v1.4.2" class="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
+						<header class="mb-6">
+							<div class="mb-4 flex items-center gap-3">
+								<div class="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1">
+									<Tag size={16} class="text-neutral-600" />
+									<span class="text-sm font-medium text-neutral-600">v1.4.2</span>
+								</div>
 							</div>
 							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 								<h2 class="text-2xl font-bold">Version 1.4.2</h2>
@@ -168,7 +230,7 @@
 							</div>
 							<div class="mt-2 flex items-center gap-2 text-neutral-500">
 								<Calendar size={16} />
-								<span class="text-sm">Just released</span>
+								<span class="text-sm">1 week ago</span>
 							</div>
 						</header>
 
@@ -227,7 +289,7 @@
 							</div>
 							<div class="mt-2 flex items-center gap-2 text-neutral-500">
 								<Calendar size={16} />
-								<span class="text-sm">2 weeks ago</span>
+								<span class="text-sm">3 weeks ago</span>
 							</div>
 						</header>
 
@@ -298,7 +360,7 @@
 							</div>
 							<div class="mt-2 flex items-center gap-2 text-neutral-500">
 								<Calendar size={16} />
-								<span class="text-sm">2 weeks ago</span>
+								<span class="text-sm">3 weeks ago</span>
 							</div>
 						</header>
 
@@ -364,7 +426,7 @@
 							</div>
 							<div class="mt-2 flex items-center gap-2 text-neutral-500">
 								<Calendar size={16} />
-								<span class="text-sm">2 weeks ago</span>
+								<span class="text-sm">Jun 20</span>
 							</div>
 						</header>
 
