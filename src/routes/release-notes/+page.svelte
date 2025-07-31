@@ -76,7 +76,7 @@
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">7</span>
+									<span class="text-lg font-bold text-neutral-700">8</span>
 								</div>
 								<p class="font-medium">Versions Released</p>
 								<p class="text-sm text-neutral-500">Since launch in 2024</p>
@@ -85,7 +85,7 @@
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">10+</span>
+									<span class="text-lg font-bold text-neutral-700">12+</span>
 								</div>
 								<p class="font-medium">Bug Fixes</p>
 								<p class="text-sm text-neutral-500">Continuous improvements</p>
@@ -94,7 +94,7 @@
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">8+</span>
+									<span class="text-lg font-bold text-neutral-700">10+</span>
 								</div>
 								<p class="font-medium">New Features</p>
 								<p class="text-sm text-neutral-500">Enhanced functionality</p>
