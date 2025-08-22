@@ -1,8 +1,131 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { Calendar, Tag, Bell, ExternalLink, CheckCircle } from 'lucide-svelte';
 	import Header from '../../components/Header.svelte';
 	import Footer from '../../components/Footer.svelte';
 	import Discord from '../../components/icons/discord.svelte';
+
+	interface Release {
+		tag_name: string;
+		name: string;
+		body: string;
+		published_at: string;
+		html_url: string;
+		prerelease: boolean;
+	}
+
+	let releases: Release[] = [];
+	let loading = true;
+	let error = '';
+
+	async function fetchReleases() {
+		try {
+			const response = await fetch('https://api.github.com/repos/lirena00/monochromate/releases');
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			releases = data;
+			loading = false;
+		} catch (err) {
+			console.error('Error fetching releases:', err);
+			error = 'Failed to load release notes. Please try again later.';
+			loading = false;
+		}
+	}
+
+	function parseReleaseBody(body: string) {
+		const sections = {
+			whatsNew: [] as string[],
+			whatsFixed: [] as string[],
+			description: ''
+		};
+
+		const lines = body.split('\n');
+		let currentSection = '';
+		let inList = false;
+
+		for (const line of lines) {
+			const trimmed = line.trim();
+
+			if (
+				trimmed.toLowerCase().includes("what's new") ||
+				trimmed.toLowerCase().includes("## what's new")
+			) {
+				currentSection = 'whatsNew';
+				inList = false;
+				continue;
+			} else if (
+				trimmed.toLowerCase().includes("what's fixed") ||
+				trimmed.toLowerCase().includes("## what's fixed")
+			) {
+				currentSection = 'whatsFixed';
+				inList = false;
+				continue;
+			} else if (trimmed.startsWith('##') && !trimmed.toLowerCase().includes("what's")) {
+				currentSection = '';
+				inList = false;
+				continue;
+			}
+
+			if (trimmed.startsWith('• ') || trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+				const text = trimmed.substring(2).trim();
+				if (currentSection === 'whatsNew') {
+					sections.whatsNew.push(text);
+				} else if (currentSection === 'whatsFixed') {
+					sections.whatsFixed.push(text);
+				}
+				inList = true;
+			} else if (!inList && trimmed && !trimmed.startsWith('#') && !currentSection) {
+				sections.description += trimmed + ' ';
+			}
+		}
+
+		sections.description = sections.description.trim();
+		return sections;
+	}
+
+	function formatReleaseText(text: string): string {
+		return (
+			text
+				// Convert **bold** to <strong>bold</strong>
+				.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+				// Convert issue references to links (both #123 and (#123) formats)
+				.replace(
+					/#(\d+)(?!\w)/g,
+					'<a href="https://github.com/lirena00/monochromate/issues/$1" target="_blank" rel="noopener noreferrer" class="text-neutral-900 underline hover:text-neutral-600">#$1</a>'
+				)
+				// Convert user mentions to links
+				.replace(
+					/@(\w+)/g,
+					'<a href="https://github.com/$1" target="_blank" rel="noopener noreferrer" class="text-neutral-900 underline hover:text-neutral-600">@$1</a>'
+				)
+		);
+	}
+
+	function formatDate(dateString: string) {
+		const date = new Date(dateString);
+		const now = new Date();
+		const diffTime = Math.abs(now.getTime() - date.getTime());
+		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+		if (diffDays === 1) return 'Yesterday';
+		if (diffDays < 7) return `${diffDays} days ago`;
+		if (diffDays < 14) return '1 week ago';
+		if (diffDays < 21) return '2 weeks ago';
+		if (diffDays < 28) return '3 weeks ago';
+		if (diffDays < 60) return '1 month ago';
+
+		return date.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric'
+		});
+	}
+
+	onMount(() => {
+		fetchReleases();
+	});
 </script>
 
 <svelte:head>
@@ -76,7 +199,7 @@
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">8</span>
+									<span class="text-lg font-bold text-neutral-700">{releases.length}</span>
 								</div>
 								<p class="font-medium">Versions Released</p>
 								<p class="text-sm text-neutral-500">Since launch in 2024</p>
@@ -85,7 +208,12 @@
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">12+</span>
+									<span class="text-lg font-bold text-neutral-700"
+										>{releases.reduce(
+											(acc, release) => acc + parseReleaseBody(release.body).whatsFixed.length,
+											0
+										)}+</span
+									>
 								</div>
 								<p class="font-medium">Bug Fixes</p>
 								<p class="text-sm text-neutral-500">Continuous improvements</p>
@@ -94,7 +222,12 @@
 								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
 							>
 								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">10+</span>
+									<span class="text-lg font-bold text-neutral-700"
+										>{releases.reduce(
+											(acc, release) => acc + parseReleaseBody(release.body).whatsNew.length,
+											0
+										)}+</span
+									>
 								</div>
 								<p class="font-medium">New Features</p>
 								<p class="text-sm text-neutral-500">Enhanced functionality</p>
@@ -139,492 +272,110 @@
 					</div>
 				</div>
 
-				<div class="space-y-8 leading-relaxed">
-					<!-- Version 1.4.3 -->
-					<article
-						id="v1.4.3"
-						class="rounded-xl border-2 border-neutral-900 bg-white p-8 shadow-sm"
-					>
-						<header class="mb-6">
-							<div class="mb-4 flex items-center gap-3">
-								<div
-									class="flex items-center gap-2 rounded-full border-2 border-neutral-900 bg-neutral-900 px-3 py-1"
-								>
-									<Tag size={16} class="text-white" />
-									<span class="text-sm font-medium text-white">v1.4.3</span>
-								</div>
-								<span class="text-sm text-neutral-500">Latest</span>
-							</div>
-							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-								<h2 class="text-2xl font-bold">Version 1.4.3</h2>
-								<a
-									href="https://github.com/lirena00/monochromate/releases/tag/v1.4.3"
-									target="_blank"
-									rel="noopener noreferrer"
-									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
-								>
-									<span>View on GitHub</span>
-									<ExternalLink size={14} />
-								</a>
-							</div>
-							<div class="mt-2 flex items-center gap-2 text-neutral-500">
-								<Calendar size={16} />
-								<span class="text-sm">Just released</span>
-							</div>
-						</header>
-
-						<div class="space-y-6">
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Added better text cues for import/export status of settings</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Added rate us section in footer</span>
-									</li>
-								</ul>
-							</div>
-
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Fixed not able to import settings in Firefox based browsers</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span
-											>Fixed monochromate not respecting excluded sites while being in fullscreen
-											mode</span
-										>
-									</li>
-								</ul>
-							</div>
+				{#if loading}
+					<div class="flex items-center justify-center py-12">
+						<div class="text-center">
+							<div
+								class="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-neutral-300 border-t-neutral-700"
+							></div>
+							<p class="text-neutral-500">Loading release notes...</p>
 						</div>
-					</article>
-
-					<!-- Version 1.4.2 -->
-					<article id="v1.4.2" class="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
-						<header class="mb-6">
-							<div class="mb-4 flex items-center gap-3">
-								<div class="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1">
-									<Tag size={16} class="text-neutral-600" />
-									<span class="text-sm font-medium text-neutral-600">v1.4.2</span>
-								</div>
-							</div>
-							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-								<h2 class="text-2xl font-bold">Version 1.4.2</h2>
-								<a
-									href="https://github.com/lirena00/monochromate/releases/tag/v1.4.2"
-									target="_blank"
-									rel="noopener noreferrer"
-									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
-								>
-									<span>View on GitHub</span>
-									<ExternalLink size={14} />
-								</a>
-							</div>
-							<div class="mt-2 flex items-center gap-2 text-neutral-500">
-								<Calendar size={16} />
-								<span class="text-sm">1 week ago</span>
-							</div>
-						</header>
-
-						<div class="space-y-6">
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Scheduler is turned off by default</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span
-											>Scheduler now shows time remaining till automatically turning extension
-											active/inactive</span
+					</div>
+				{:else if error}
+					<div class="rounded-xl border border-red-200 bg-red-50 p-8 text-center">
+						<p class="text-red-600">{error}</p>
+						<button
+							on:click={fetchReleases}
+							class="mt-4 rounded-full bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
+						>
+							Try Again
+						</button>
+					</div>
+				{:else}
+					<div class="space-y-8 leading-relaxed">
+						{#each releases as release, index}
+							{@const parsed = parseReleaseBody(release.body)}
+							<article
+								id="v{release.tag_name}"
+								class="rounded-xl border{index === 0
+									? '-2 border-neutral-900'
+									: ' border-neutral-200'} bg-white p-8 shadow-sm"
+							>
+								<header class="mb-6">
+									<div class="mb-4 flex items-center gap-3">
+										<div
+											class="flex items-center gap-2 rounded-full {index === 0
+												? 'border-2 border-neutral-900 bg-neutral-900'
+												: 'bg-neutral-100'} px-3 py-1"
 										>
-									</li>
-								</ul>
-							</div>
-
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span
-											>Fixed a minor issue with scheduler leading to it turning off the extension</span
+											<Tag size={16} class={index === 0 ? 'text-white' : 'text-neutral-600'} />
+											<span
+												class="text-sm font-medium {index === 0
+													? 'text-white'
+													: 'text-neutral-600'}">{release.tag_name}</span
+											>
+										</div>
+										{#if index === 0}
+											<span class="text-sm text-neutral-500">Latest</span>
+										{/if}
+									</div>
+									<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+										<h2 class="text-2xl font-bold">
+											{release.name || `Version ${release.tag_name}`}
+										</h2>
+										<a
+											href={release.html_url}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
 										>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</article>
+											<span>View on GitHub</span>
+											<ExternalLink size={14} />
+										</a>
+									</div>
+									<div class="mt-2 flex items-center gap-2 text-neutral-500">
+										<Calendar size={16} />
+										<span class="text-sm">{formatDate(release.published_at)}</span>
+									</div>
+								</header>
 
-					<!-- Version 1.4.1 -->
-					<article id="v1.4.1" class="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
-						<header class="mb-6">
-							<div class="mb-4 flex items-center gap-3">
-								<div class="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1">
-									<Tag size={16} class="text-neutral-600" />
-									<span class="text-sm font-medium text-neutral-600">v1.4.1</span>
+								<div class="space-y-6">
+									{#if parsed.whatsNew.length > 0}
+										<div>
+											<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
+											<ul class="space-y-2 text-neutral-600">
+												{#each parsed.whatsNew as item}
+													<li class="flex items-start gap-3">
+														<div
+															class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"
+														></div>
+														<span>{@html formatReleaseText(item)}</span>
+													</li>
+												{/each}
+											</ul>
+										</div>
+									{/if}
+
+									{#if parsed.whatsFixed.length > 0}
+										<div>
+											<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
+											<ul class="space-y-2 text-neutral-600">
+												{#each parsed.whatsFixed as item}
+													<li class="flex items-start gap-3">
+														<div
+															class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"
+														></div>
+														<span>{@html formatReleaseText(item)}</span>
+													</li>
+												{/each}
+											</ul>
+										</div>
+									{/if}
 								</div>
-							</div>
-							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-								<h2 class="text-2xl font-bold">Version 1.4.1</h2>
-								<a
-									href="https://github.com/lirena00/monochromate/releases/tag/v1.4.1"
-									target="_blank"
-									rel="noopener noreferrer"
-									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
-								>
-									<span>View on GitHub</span>
-									<ExternalLink size={14} />
-								</a>
-							</div>
-							<div class="mt-2 flex items-center gap-2 text-neutral-500">
-								<Calendar size={16} />
-								<span class="text-sm">3 weeks ago</span>
-							</div>
-						</header>
-
-						<div class="space-y-6">
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span
-											>Redid UI of blacklist management page to make it consistent with overall ui
-											of extension
-										</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span
-											>There is a warning shown when extension is enabled on an extension/addon site
-										</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-
-										<span>Migrated storage to wxt/storage </span>
-									</li>
-								</ul>
-							</div>
-
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span
-											>Fixed monochromate not working on full screen (by <a
-												href="https://github.com/AlenVelocity"
-												target="_blank"
-												rel="noopener noreferrer"
-												class="text-neutral-900 underline hover:text-neutral-600">@AlenVelocity</a
-											>)</span
-										>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</article>
-
-					<!-- Version 1.4.0 -->
-					<article id="v1.4.0" class="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
-						<header class="mb-6">
-							<div class="mb-4 flex items-center gap-3">
-								<div class="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1">
-									<Tag size={16} class="text-neutral-600" />
-									<span class="text-sm font-medium text-neutral-600">v1.4.0</span>
-								</div>
-							</div>
-							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-								<h2 class="text-2xl font-bold">Version 1.4.0</h2>
-								<a
-									href="https://github.com/lirena00/monochromate/releases/tag/v1.4.0"
-									target="_blank"
-									rel="noopener noreferrer"
-									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
-								>
-									<span>View on GitHub</span>
-									<ExternalLink size={14} />
-								</a>
-							</div>
-							<div class="mt-2 flex items-center gap-2 text-neutral-500">
-								<Calendar size={16} />
-								<span class="text-sm">3 weeks ago</span>
-							</div>
-						</header>
-
-						<div class="space-y-6">
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Added export/import feature</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Refactored code and separated cards into components</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Better and new layout for footer</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Version is shown on header now</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Better tracking of installs and updates</span>
-									</li>
-								</ul>
-							</div>
-
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Clicking on version link not redirecting to correct url</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</article>
-
-					<!-- Version 1.3.2 -->
-					<article id="v1.3.2" class="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
-						<header class="mb-6">
-							<div class="mb-4 flex items-center gap-3">
-								<div class="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1">
-									<Tag size={16} class="text-neutral-600" />
-									<span class="text-sm font-medium text-neutral-600">v1.3.2</span>
-								</div>
-							</div>
-							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-								<h2 class="text-2xl font-bold">Version 1.3.2</h2>
-								<a
-									href="https://github.com/lirena00/monochromate/releases/tag/v1.3.2"
-									target="_blank"
-									rel="noopener noreferrer"
-									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
-								>
-									<span>View on GitHub</span>
-									<ExternalLink size={14} />
-								</a>
-							</div>
-							<div class="mt-2 flex items-center gap-2 text-neutral-500">
-								<Calendar size={16} />
-								<span class="text-sm">Jun 20</span>
-							</div>
-						</header>
-
-						<div class="space-y-6">
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span
-											>Extension will now open Monochromate website when installed or updated</span
-										>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Improved schedule handling to save start and end times together</span>
-									</li>
-								</ul>
-							</div>
-
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Fixed user's data wiping off because of schedule conflicts</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Fixed schedule data persistence issues during application lifecycle</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</article>
-
-					<!-- Version 1.3.1 -->
-					<article id="v1.3.1" class="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
-						<header class="mb-6">
-							<div class="mb-4 flex items-center gap-3">
-								<div class="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1">
-									<Tag size={16} class="text-neutral-600" />
-									<span class="text-sm font-medium text-neutral-600">v1.3.1</span>
-								</div>
-							</div>
-							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-								<h2 class="text-2xl font-bold">Version 1.3.1</h2>
-								<a
-									href="https://github.com/lirena00/monochromate/releases/tag/v1.3.1"
-									target="_blank"
-									rel="noopener noreferrer"
-									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
-								>
-									<span>View on GitHub</span>
-									<ExternalLink size={14} />
-								</a>
-							</div>
-							<div class="mt-2 flex items-center gap-2 text-neutral-500">
-								<Calendar size={16} />
-								<span class="text-sm">May 21</span>
-							</div>
-						</header>
-
-						<div class="space-y-6">
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Added scheduler toggle option</span>
-									</li>
-								</ul>
-							</div>
-
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Fixed user's data wiping at initial loading</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Fixed layout shift while switching pages</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Fixed end time of scheduler not showing by default</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</article>
-					<!-- Version 1.3.0 -->
-					<article id="v1.3.0" class="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
-						<header class="mb-6">
-							<div class="mb-4 flex items-center gap-3">
-								<div class="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1">
-									<Tag size={16} class="text-neutral-600" />
-									<span class="text-sm font-medium text-neutral-600">v1.3.0</span>
-								</div>
-							</div>
-							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-								<h2 class="text-2xl font-bold">Version 1.3.0</h2>
-								<a
-									href="https://github.com/lirena00/monochromate/releases/tag/v1.3.0"
-									target="_blank"
-									rel="noopener noreferrer"
-									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
-								>
-									<span>View on GitHub</span>
-									<ExternalLink size={14} />
-								</a>
-							</div>
-							<div class="mt-2 flex items-center gap-2 text-neutral-500">
-								<Calendar size={16} />
-								<span class="text-sm">May 10</span>
-							</div>
-						</header>
-
-						<div class="space-y-6">
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Added Scheduler to toggle grayscale mode</span>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span>Updated Tailwind and WXT to latest version</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</article>
-					<!-- Version 1.2.0 -->
-					<article id="v1.2.0" class="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm">
-						<header class="mb-6">
-							<div class="mb-4 flex items-center gap-3">
-								<div class="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1">
-									<Tag size={16} class="text-neutral-600" />
-									<span class="text-sm font-medium text-neutral-600">v1.2.0</span>
-								</div>
-							</div>
-							<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-								<h2 class="text-2xl font-bold">Version 1.2.0</h2>
-								<a
-									href="https://github.com/lirena00/monochromate/releases/tag/v1.2.0"
-									target="_blank"
-									rel="noopener noreferrer"
-									class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm transition-all hover:border-neutral-400 hover:bg-neutral-50"
-								>
-									<span>View on GitHub</span>
-									<ExternalLink size={14} />
-								</a>
-							</div>
-							<div class="mt-2 flex items-center gap-2 text-neutral-500">
-								<Calendar size={16} />
-								<span class="text-sm">April 13</span>
-							</div>
-						</header>
-
-						<div class="space-y-6">
-							<div>
-								<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
-								<p class="mb-4 text-neutral-600">
-									This release prioritizes making the extension faster, so you can enjoy a smoother
-									experience.
-								</p>
-								<ul class="space-y-2 text-neutral-600">
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span
-											><strong>Card Layout Tweak:</strong> Swapped the positions of the Intensity and
-											Blacklist cards on the homepage. The Blacklist card, being more frequently used,
-											now takes a more prominent spot.</span
-										>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span
-											><strong>Improved Blacklist and CSS Handling:</strong> Optimized how the extension
-											manages blacklist functionality and CSS, resulting in smoother performance.</span
-										>
-									</li>
-									<li class="flex items-start gap-3">
-										<div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"></div>
-										<span
-											><strong>Migration to pnpm:</strong> Switched from npm to pnpm for faster and more
-											efficient package management.</span
-										>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</article>
-				</div>
+							</article>
+						{/each}
+					</div>
+				{/if}
 			</div>
 		</section>
 	</main>
