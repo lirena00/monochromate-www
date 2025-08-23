@@ -38,6 +38,7 @@
 		const sections = {
 			whatsNew: [] as string[],
 			whatsFixed: [] as string[],
+			joincommunity: '',
 			description: ''
 		};
 
@@ -60,6 +61,13 @@
 				trimmed.toLowerCase().includes("## what's fixed")
 			) {
 				currentSection = 'whatsFixed';
+				inList = false;
+				continue;
+			} else if (
+				trimmed.toLowerCase().includes('join our community') ||
+				trimmed.toLowerCase().includes('## join our community')
+			) {
+				currentSection = 'joincommunity';
 				inList = false;
 				continue;
 			} else if (trimmed.startsWith('##') && !trimmed.toLowerCase().includes("what's")) {
@@ -340,6 +348,9 @@
 								</header>
 
 								<div class="space-y-6">
+									{#if parsed.description}
+										<p class="text-neutral-600">{parsed.description}</p>
+									{/if}
 									{#if parsed.whatsNew.length > 0}
 										<div>
 											<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
