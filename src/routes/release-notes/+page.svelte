@@ -45,6 +45,7 @@
 		const lines = body.split('\n');
 		let currentSection = '';
 		let inList = false;
+		let descriptionLines: string[] = [];
 
 		for (const line of lines) {
 			const trimmed = line.trim();
@@ -85,11 +86,11 @@
 				}
 				inList = true;
 			} else if (!inList && trimmed && !trimmed.startsWith('#') && !currentSection) {
-				sections.description += trimmed + ' ';
+				descriptionLines.push(trimmed);
 			}
 		}
 
-		sections.description = sections.description.trim();
+		sections.description = descriptionLines.join('\n');
 		return sections;
 	}
 
@@ -103,11 +104,13 @@
 					/#(\d+)(?!\w)/g,
 					'<a href="https://github.com/lirena00/monochromate/issues/$1" target="_blank" rel="noopener noreferrer" class="text-neutral-900 underline hover:text-neutral-600">#$1</a>'
 				)
-				// Convert user mentions to links
+				// Convert user mentions to links (updated regex to handle hyphens and other characters)
 				.replace(
-					/@(\w+)/g,
+					/@([\w-]+)/g,
 					'<a href="https://github.com/$1" target="_blank" rel="noopener noreferrer" class="text-neutral-900 underline hover:text-neutral-600">@$1</a>'
 				)
+				// Convert newlines to <br> tags for proper line breaks
+				.replace(/\n/g, '<br>')
 		);
 	}
 
@@ -349,7 +352,9 @@
 
 								<div class="space-y-6">
 									{#if parsed.description}
-										<p class="text-neutral-600">{parsed.description}</p>
+										<div class="text-neutral-600">
+											{@html formatReleaseText(parsed.description)}
+										</div>
 									{/if}
 									{#if parsed.whatsNew.length > 0}
 										<div>
