@@ -97,6 +97,11 @@
 	function formatReleaseText(text: string): string {
 		return (
 			text
+			    // Convert [text](url) to <a> links — must run before other replacements
+            	.replace(
+                /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,
+                '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-neutral-900 underline hover:text-neutral-600">$1</a>'
+            	)
 				// Convert **bold** to <strong>bold</strong>
 				.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
 				// Convert issue references to links (both #123 and (#123) formats)
