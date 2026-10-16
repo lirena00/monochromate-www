@@ -6,7 +6,7 @@ export const bannerConfig = {
 		{ id: 'donations' },
 		{
 			id: 'blobz',
-			icon: 'blobz',
+			iconUrl: 'https://blobz.lirena.in/icon.svg',
 			title: 'Meet Blobz',
 			text: 'Turn any name into a playful avatar. Try Blobz or add @blobz/react to your next project.',
 			cta: 'Try Blobz',
