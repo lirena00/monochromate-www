@@ -1,122 +1,23 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { invalidateAll } from '$app/navigation';
+	import type { PageData } from './$types';
 	import { Calendar, Tag, Bell, ExternalLink, CheckCircle } from 'lucide-svelte';
 	import Header from '../../components/Header.svelte';
 	import Footer from '../../components/Footer.svelte';
 	import Discord from '../../components/icons/discord.svelte';
 
-	interface Release {
-		tag_name: string;
-		name: string;
-		body: string;
-		published_at: string;
-		html_url: string;
-		prerelease: boolean;
-	}
-
-	let releases: Release[] = [];
-	let loading = true;
-	let error = '';
+	export let data: PageData;
+	let loading = false;
+	$: releases = data.releases;
+	$: error = data.error;
 
 	async function fetchReleases() {
+		loading = true;
 		try {
-			const response = await fetch('https://api.github.com/repos/lirena00/monochromate/releases');
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
-			}
-			const data = await response.json();
-			releases = data;
-			loading = false;
-		} catch (err) {
-			console.error('Error fetching releases:', err);
-			error = 'Failed to load release notes. Please try again later.';
+			await invalidateAll();
+		} finally {
 			loading = false;
 		}
-	}
-
-	function parseReleaseBody(body: string) {
-		const sections = {
-			whatsNew: [] as string[],
-			whatsFixed: [] as string[],
-			joincommunity: '',
-			description: ''
-		};
-
-		const lines = body.split('\n');
-		let currentSection = '';
-		let inList = false;
-		let descriptionLines: string[] = [];
-
-		for (const line of lines) {
-			const trimmed = line.trim();
-
-			if (
-				trimmed.toLowerCase().includes("what's new") ||
-				trimmed.toLowerCase().includes("## what's new")
-			) {
-				currentSection = 'whatsNew';
-				inList = false;
-				continue;
-			} else if (
-				trimmed.toLowerCase().includes("what's fixed") ||
-				trimmed.toLowerCase().includes("## what's fixed")
-			) {
-				currentSection = 'whatsFixed';
-				inList = false;
-				continue;
-			} else if (
-				trimmed.toLowerCase().includes('join our community') ||
-				trimmed.toLowerCase().includes('## join our community')
-			) {
-				currentSection = 'joincommunity';
-				inList = false;
-				continue;
-			} else if (trimmed.startsWith('##') && !trimmed.toLowerCase().includes("what's")) {
-				currentSection = '';
-				inList = false;
-				continue;
-			}
-
-			if (trimmed.startsWith('• ') || trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-				const text = trimmed.substring(2).trim();
-				if (currentSection === 'whatsNew') {
-					sections.whatsNew.push(text);
-				} else if (currentSection === 'whatsFixed') {
-					sections.whatsFixed.push(text);
-				}
-				inList = true;
-			} else if (!inList && trimmed && !trimmed.startsWith('#') && !currentSection) {
-				descriptionLines.push(trimmed);
-			}
-		}
-
-		sections.description = descriptionLines.join('\n');
-		return sections;
-	}
-
-	function formatReleaseText(text: string): string {
-		return (
-			text
-			    // Convert [text](url) to <a> links — must run before other replacements
-            	.replace(
-                /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,
-                '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-neutral-900 underline hover:text-neutral-600">$1</a>'
-            	)
-				// Convert **bold** to <strong>bold</strong>
-				.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-				// Convert issue references to links (both #123 and (#123) formats)
-				.replace(
-					/#(\d+)(?!\w)/g,
-					'<a href="https://github.com/lirena00/monochromate/issues/$1" target="_blank" rel="noopener noreferrer" class="text-neutral-900 underline hover:text-neutral-600">#$1</a>'
-				)
-				// Convert user mentions to links (updated regex to handle hyphens and other characters)
-				.replace(
-					/@([\w-]+)/g,
-					'<a href="https://github.com/$1" target="_blank" rel="noopener noreferrer" class="text-neutral-900 underline hover:text-neutral-600">@$1</a>'
-				)
-				// Convert newlines to <br> tags for proper line breaks
-				.replace(/\n/g, '<br>')
-		);
 	}
 
 	function formatDate(dateString: string) {
@@ -138,10 +39,6 @@
 			day: 'numeric'
 		});
 	}
-
-	onMount(() => {
-		fetchReleases();
-	});
 </script>
 
 <svelte:head>
@@ -210,45 +107,11 @@
 							Stay updated with the latest features, improvements, and bug fixes in Monochromate.
 							Each release brings us closer to the perfect distraction-free browsing experience.
 						</p>
-						<div class="mt-4 grid gap-3 sm:grid-cols-3">
-							<div
-								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
-							>
-								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700">{releases.length}</span>
-								</div>
-								<p class="font-medium">Versions Released</p>
-								<p class="text-sm text-neutral-500">Since launch in 2024</p>
-							</div>
-							<div
-								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
-							>
-								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700"
-										>{releases.reduce(
-											(acc, release) => acc + parseReleaseBody(release.body).whatsFixed.length,
-											0
-										)}+</span
-									>
-								</div>
-								<p class="font-medium">Bug Fixes</p>
-								<p class="text-sm text-neutral-500">Continuous improvements</p>
-							</div>
-							<div
-								class="flex flex-col items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center"
-							>
-								<div class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
-									<span class="text-lg font-bold text-neutral-700"
-										>{releases.reduce(
-											(acc, release) => acc + parseReleaseBody(release.body).whatsNew.length,
-											0
-										)}+</span
-									>
-								</div>
-								<p class="font-medium">New Features</p>
-								<p class="text-sm text-neutral-500">Enhanced functionality</p>
-							</div>
-						</div>
+						{#if !loading && !error}
+							<p class="mt-4 text-sm font-medium text-neutral-700">
+								{releases.length} release{releases.length === 1 ? '' : 's'}
+							</p>
+						{/if}
 					</div>
 				</div>
 
@@ -301,7 +164,7 @@
 					<div class="rounded-xl border border-red-200 bg-red-50 p-8 text-center">
 						<p class="text-red-600">{error}</p>
 						<button
-							on:click={fetchReleases}
+							onclick={fetchReleases}
 							class="mt-4 rounded-full bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
 						>
 							Try Again
@@ -309,8 +172,7 @@
 					</div>
 				{:else}
 					<div class="space-y-8 leading-relaxed">
-						{#each releases as release, index}
-							{@const parsed = parseReleaseBody(release.body)}
+						{#each releases as release, index (release.tag_name)}
 							<article
 								id="v{release.tag_name}"
 								class="rounded-xl border{index === 0
@@ -355,43 +217,12 @@
 									</div>
 								</header>
 
-								<div class="space-y-6">
-									{#if parsed.description}
-										<div class="text-neutral-600">
-											{@html formatReleaseText(parsed.description)}
-										</div>
-									{/if}
-									{#if parsed.whatsNew.length > 0}
-										<div>
-											<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's New</h3>
-											<ul class="space-y-2 text-neutral-600">
-												{#each parsed.whatsNew as item}
-													<li class="flex items-start gap-3">
-														<div
-															class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"
-														></div>
-														<span>{@html formatReleaseText(item)}</span>
-													</li>
-												{/each}
-											</ul>
-										</div>
-									{/if}
-
-									{#if parsed.whatsFixed.length > 0}
-										<div>
-											<h3 class="mb-3 text-lg font-semibold text-neutral-800">What's Fixed</h3>
-											<ul class="space-y-2 text-neutral-600">
-												{#each parsed.whatsFixed as item}
-													<li class="flex items-start gap-3">
-														<div
-															class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-700"
-														></div>
-														<span>{@html formatReleaseText(item)}</span>
-													</li>
-												{/each}
-											</ul>
-										</div>
-									{/if}
+								<div
+									class="prose prose-neutral prose-pre:overflow-x-auto prose-table:block prose-table:overflow-x-auto max-w-none break-words"
+								>
+									<!-- Rendered and sanitized by the server's Markdown pipeline. -->
+									<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+									{@html release.bodyHtml}
 								</div>
 							</article>
 						{/each}
@@ -404,27 +235,7 @@
 </div>
 
 <style>
-	:global(body) {
-		font-family:
-			'Inter',
-			-apple-system,
-			'Segoe UI',
-			Roboto,
-			'Helvetica Neue',
-			sans-serif;
-		line-height: 1.6;
-	}
-
-	:global(p) {
-		line-height: 1.7;
-	}
-
-	:global(html) {
-		scroll-behavior: smooth;
-	}
-
-	/* Custom smooth scroll with offset for anchored sections */
-	:global([id]) {
+	article {
 		scroll-margin-top: 2rem;
 	}
 </style>
