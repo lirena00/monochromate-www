@@ -50,3 +50,7 @@
 		</div>
 	</div>
 </header>
+
+<div class="container mx-auto w-full px-4 sm:px-6">
+	<div data-sponsoranysite="L5Zd8D1sAYvX"></div>
+</div>
